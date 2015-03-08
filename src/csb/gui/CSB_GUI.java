@@ -187,7 +187,12 @@ public class CSB_GUI implements CourseDataView {
     VBox lecturePane;
     VBox lectureInfoPane;
     Label lectureInfoHeadingLabel;
-    SplitPane splitLectureInfoPane;
+    
+    // ASSIGNMENT CONTROLS
+    VBox assignmentPane;
+    VBox assignmentInfoPane;
+    Label assignmentInfoHeadingLabel;
+    
     
     //THIS REGION IS FOR MANAGING LECTURES OTHER THAN SCHEDULE AND HW
     VBox lectureBox;
@@ -206,6 +211,7 @@ public class CSB_GUI implements CourseDataView {
     HBox assignmentToolBar;
     Button addAssignmentButton;
     Button removeAssignmentButton; 
+    Label assignmentLabel;
     TableView<Assignment>assignmentTable;
     TableColumn nameOfAssignment;
     TableColumn topicOfAssignment;
@@ -497,14 +503,17 @@ public class CSB_GUI implements CourseDataView {
         
         //THIS IS FOR MANAGING LECTURE EDITING
         initLectureControls();
+        
+        //THIS IS FOR MANAGING ASSIGNMENT EDITING
+        initAssignmentControls();
 
         // THIS HOLDS ALL OUR WORKSPACE COMPONENTS, SO NOW WE MUST
         // ADD THE COMPONENTS WE'VE JUST INITIALIZED
         workspacePane = new BorderPane();
         workspacePane.setTop(topWorkspacePane);
         schedulePane.getChildren().add(lectureBox);
+        schedulePane.getChildren().add(assignmentBox);
         workspacePane.setCenter(schedulePane);
-        //workspacePane.setBottom(lecturePane);
         workspacePane.getStyleClass().add(CLASS_BORDERED_PANE);
         
         // AND NOW PUT IT IN THE WORKSPACE
@@ -697,15 +706,12 @@ public class CSB_GUI implements CourseDataView {
 //          
 //        // NOW LET'S ASSEMBLE ALL THE CONTAINERS TOGETHER
 //
-//        // THIS IS FOR STUFF IN THE TOP OF THE SCHEDULE PANE, WE NEED TO PUT TWO THINGS INSIDE
+//        // THIS IS FOR STUFF IN THE TOP OF THE LECTURE PANE, WE NEED TO PUT TWO THINGS INSIDE
          lectureInfoPane = new VBox();
 //
 //        // FIRST OUR SCHEDULE HEADER
          lectureInfoHeadingLabel = initChildLabel(lectureInfoPane, CSB_PropertyType.LECTURES_HEADING_LABEL, CLASS_HEADING_LABEL);
-//
-//        // AND THEN THE SPLIT PANE
-           //might add later
-//
+
 //      // FINALLY, EVERYTHING IN THIS REGION ULTIMATELY GOES INTO lecturePane
   
         
@@ -713,6 +719,51 @@ public class CSB_GUI implements CourseDataView {
         lecturePane.getChildren().add(lectureInfoPane);
         lecturePane.getChildren().add(lectureBox);
         lecturePane.getStyleClass().add(CLASS_BORDERED_PANE);
+    }
+    private void initAssignmentControls() {
+
+        // NOW THE CONTROLS FOR ADDING ASSIGNMENT ITEMS
+        assignmentBox = new VBox();
+        assignmentToolBar = new HBox();
+        assignmentLabel = initLabel(CSB_PropertyType.HWS_HEADING_LABEL, CLASS_SUBHEADING_LABEL);
+        addAssignmentButton = initChildButton(assignmentToolBar, CSB_PropertyType.ADD_ICON, CSB_PropertyType.ADD_ITEM_TOOLTIP, false);
+        removeAssignmentButton = initChildButton(assignmentToolBar, CSB_PropertyType.MINUS_ICON, CSB_PropertyType.REMOVE_ITEM_TOOLTIP, false);        
+        assignmentTable = new TableView();
+        assignmentBox.getChildren().add(assignmentLabel);
+        assignmentBox.getChildren().add(assignmentToolBar);
+        assignmentBox.getChildren().add(assignmentTable);
+        assignmentBox.getStyleClass().add(CLASS_BORDERED_PANE);
+        
+        // NOW SETUP THE TABLE COLUMNS
+        nameOfAssignment= new TableColumn(COL_NAME);
+        topicOfAssignment = new TableColumn(COL_TOPIC);
+        dateOfAssignment = new TableColumn(COL_DATE);
+
+//        
+//        // AND LINK THE COLUMNS TO THE DATA
+        nameOfAssignment.setCellValueFactory(new PropertyValueFactory<String, String>("name"));
+        topicOfAssignment.setCellFactory(new PropertyValueFactory<String, String>("topic"));
+        dateOfAssignment.setCellValueFactory(new PropertyValueFactory<LocalDate, String>("date"));
+        assignmentTable.getColumns().add(nameOfAssignment);
+        assignmentTable.getColumns().add(topicOfAssignment);
+        assignmentTable.getColumns().add(dateOfAssignment);
+        assignmentTable.setItems(dataManager.getCourse().getAssignments());
+//          
+//        // NOW LET'S ASSEMBLE ALL THE CONTAINERS TOGETHER
+//
+//        // THIS IS FOR STUFF IN THE TOP OF THE ASSIGNMENT PANE, WE NEED TO PUT TWO THINGS INSIDE
+         assignmentInfoPane = new VBox();
+//
+//        // FIRST OUR ASSIGNMENT HEADER
+         assignmentInfoHeadingLabel = initChildLabel(lectureInfoPane, CSB_PropertyType.HWS_HEADING_LABEL, CLASS_HEADING_LABEL);
+//
+//      // FINALLY, EVERYTHING IN THIS REGION ULTIMATELY GOES INTO ASSIGNMENT PANE
+  
+        
+        assignmentPane = new VBox();
+        assignmentPane.getChildren().add(assignmentInfoPane);
+        assignmentPane.getChildren().add(assignmentBox);
+        assignmentPane.getStyleClass().add(CLASS_BORDERED_PANE);
     }
 
     // INITIALIZE THE WINDOW (i.e. STAGE) PUTTING ALL THE CONTROLS
