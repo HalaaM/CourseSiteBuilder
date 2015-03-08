@@ -8,6 +8,7 @@ import csb.data.CourseDataManager;
 import csb.data.CourseDataView;
 import csb.data.CoursePage;
 import csb.controller.FileController;
+import csb.controller.LectureEditController;
 import csb.controller.ScheduleEditController;
 import csb.data.Instructor;
 import csb.data.ScheduleItem;
@@ -89,6 +90,10 @@ public class CSB_GUI implements CourseDataView {
     
     // THIS HANDLES REQUESTS TO ADD OR EDIT SCHEDULE STUFF
     ScheduleEditController scheduleController;
+    
+    //THIS HANDLES REQUESTS TO ADD OR EDIT LECTURE STUFF
+    LectureEditController lectureController;
+    
 
     // THIS IS THE APPLICATION WINDOW
     Stage primaryStage;
@@ -883,6 +888,15 @@ public class CSB_GUI implements CourseDataView {
         });
         removeScheduleItemButton.setOnAction(e -> {
             scheduleController.handleRemoveScheduleItemRequest(this, scheduleItemsTable.getSelectionModel().getSelectedItem());
+        });
+        
+        //AND NOW THE LECTURE ITEM ADDING AND EDITING CONTROL
+        lectureController = new LectureEditController(primaryStage, dataManager.getCourse(), messageDialog, yesNoCancelDialog);
+        addLectureButton.setOnAction(e -> {
+            lectureController.handleAddLectureRequest(this);
+        });
+        removeLectureButton.setOnAction(e -> {
+            lectureController.handleRemoveLectureRequest(this, lectureTable.getSelectionModel().getSelectedItem());
         });
         
         // AND NOW THE SCHEDULE ITEMS TABLE
