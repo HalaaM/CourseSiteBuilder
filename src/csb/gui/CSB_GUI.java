@@ -10,6 +10,7 @@ import csb.data.CoursePage;
 import csb.controller.FileController;
 import csb.controller.LectureEditController;
 import csb.controller.ScheduleEditController;
+import csb.controller.AssignmentEditController;
 import csb.data.Instructor;
 import csb.data.ScheduleItem;
 import csb.data.Lecture;
@@ -93,6 +94,9 @@ public class CSB_GUI implements CourseDataView {
     
     //THIS HANDLES REQUESTS TO ADD OR EDIT LECTURE STUFF
     LectureEditController lectureController;
+    
+    //THIS HANDLESREQUESTS TO ADD OR EDIT ASSIGNMENT STUFF
+    AssignmentEditController assignmentController;
     
 
     // THIS IS THE APPLICATION WINDOW
@@ -747,7 +751,7 @@ public class CSB_GUI implements CourseDataView {
 //        
 //        // AND LINK THE COLUMNS TO THE DATA
         nameOfAssignment.setCellValueFactory(new PropertyValueFactory<String, String>("name"));
-        topicOfAssignment.setCellFactory(new PropertyValueFactory<String, String>("topic"));
+        topicOfAssignment.setCellValueFactory(new PropertyValueFactory<String, String>("topic"));
         dateOfAssignment.setCellValueFactory(new PropertyValueFactory<LocalDate, String>("date"));
         assignmentTable.getColumns().add(nameOfAssignment);
         assignmentTable.getColumns().add(topicOfAssignment);
@@ -899,12 +903,38 @@ public class CSB_GUI implements CourseDataView {
             lectureController.handleRemoveLectureRequest(this, lectureTable.getSelectionModel().getSelectedItem());
         });
         
+        // AND NOW THE ASSIGNMENT ADDING AND EDITING CONTROLS
+        assignmentController = new AssignmentEditController(primaryStage, dataManager.getCourse(), messageDialog, yesNoCancelDialog);
+        addAssignmentButton.setOnAction(e -> {
+            assignmentController.handleAddAssignmentRequest(this);
+        });
+        removeAssignmentButton.setOnAction(e -> {
+            assignmentController.handleRemoveAssignmentRequest(this, assignmentTable.getSelectionModel().getSelectedItem());
+        });
+        
         // AND NOW THE SCHEDULE ITEMS TABLE
         scheduleItemsTable.setOnMouseClicked(e -> {
             if (e.getClickCount() == 2) {
                 // OPEN UP THE SCHEDULE ITEM EDITOR
                 ScheduleItem si = scheduleItemsTable.getSelectionModel().getSelectedItem();
                 scheduleController.handleEditScheduleItemRequest(this, si);
+            }
+        });
+        
+         // AND NOW THE LECTURE TABLE
+        lectureTable.setOnMouseClicked(e -> {
+            if (e.getClickCount() == 2) {
+                // OPEN UP THE SCHEDULE ITEM EDITOR
+                Lecture l = lectureTable.getSelectionModel().getSelectedItem();
+                lectureController.handleEditLectureRequest(this, l);
+            }
+        });
+         // AND NOW THE ASSIGNMENT TABLE
+        assignmentTable.setOnMouseClicked(e -> {
+            if (e.getClickCount() == 2) {
+                // OPEN UP THE SCHEDULE ITEM EDITOR
+                Assignment a = assignmentTable.getSelectionModel().getSelectedItem();
+                assignmentController.handleEditAssignmentRequest(this, a);
             }
         });
     }

@@ -21,7 +21,7 @@ public class Assignment {
     
     public Assignment() {
         name = new SimpleStringProperty(DEFAULT_NAME);
-        topics = new SimpleStringProperty(DEFAULT_NAME);
+        topics = new SimpleStringProperty(DEFAULT_TOPICS);
         date = new SimpleObjectProperty(LocalDate.now());
     }
     
