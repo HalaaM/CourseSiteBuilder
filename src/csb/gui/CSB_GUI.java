@@ -706,24 +706,24 @@ public class CSB_GUI implements CourseDataView {
         numberOfLectureColumn = new TableColumn(COL_SESSIONS);
 
 //        
-//        // AND LINK THE COLUMNS TO THE DATA
+//     // AND LINK THE COLUMNS TO THE DATA
+       
         lectureTopicColumn.setCellValueFactory(new PropertyValueFactory<String, String>("topic"));
-        numberOfLectureColumn.setCellValueFactory(new PropertyValueFactory<LocalDate, String>("number of sessions"));
+        numberOfLectureColumn.setCellValueFactory(new PropertyValueFactory<String, String>("sessions"));
         lectureTable.getColumns().add(lectureTopicColumn);
         lectureTable.getColumns().add(numberOfLectureColumn);
         lectureTable.setItems(dataManager.getCourse().getLectures());
 //          
 //        // NOW LET'S ASSEMBLE ALL THE CONTAINERS TOGETHER
 //
-//        // THIS IS FOR STUFF IN THE TOP OF THE LECTURE PANE, WE NEED TO PUT TWO THINGS INSIDE
+//        // THIS IS FOR STUFF IN THE TOP OF THE LECTURE PANE
          lectureInfoPane = new VBox();
 //
 //        // FIRST OUR SCHEDULE HEADER
          lectureInfoHeadingLabel = initChildLabel(lectureInfoPane, CSB_PropertyType.LECTURES_HEADING_LABEL, CLASS_HEADING_LABEL);
 
 //      // FINALLY, EVERYTHING IN THIS REGION ULTIMATELY GOES INTO lecturePane
-  
-        
+    
         lecturePane = new VBox();
         lecturePane.getChildren().add(lectureInfoPane);
         lecturePane.getChildren().add(lectureBox);
@@ -745,13 +745,13 @@ public class CSB_GUI implements CourseDataView {
         
         // NOW SETUP THE TABLE COLUMNS
         nameOfAssignment= new TableColumn(COL_NAME);
-        topicOfAssignment = new TableColumn(COL_TOPIC);
+        topicOfAssignment = new TableColumn(COL_TOPICS);
         dateOfAssignment = new TableColumn(COL_DATE);
 
 //        
 //        // AND LINK THE COLUMNS TO THE DATA
         nameOfAssignment.setCellValueFactory(new PropertyValueFactory<String, String>("name"));
-        topicOfAssignment.setCellValueFactory(new PropertyValueFactory<String, String>("topic"));
+        topicOfAssignment.setCellValueFactory(new PropertyValueFactory<String, String>("topics"));
         dateOfAssignment.setCellValueFactory(new PropertyValueFactory<LocalDate, String>("date"));
         assignmentTable.getColumns().add(nameOfAssignment);
         assignmentTable.getColumns().add(topicOfAssignment);
@@ -858,6 +858,7 @@ public class CSB_GUI implements CourseDataView {
         registerTextFieldController(courseTitleTextField);
         registerTextFieldController(instructorNameTextField);
         registerTextFieldController(instructorURLTextField);
+        //registerTextFieldController();
 
         // THE DATE SELECTION ONES HAVE PARTICULAR CONCERNS, AND SO
         // GO THROUGH A DIFFERENT METHOD
@@ -902,6 +903,8 @@ public class CSB_GUI implements CourseDataView {
         removeLectureButton.setOnAction(e -> {
             lectureController.handleRemoveLectureRequest(this, lectureTable.getSelectionModel().getSelectedItem());
         });
+        
+        // Add the move up and down button
         
         // AND NOW THE ASSIGNMENT ADDING AND EDITING CONTROLS
         assignmentController = new AssignmentEditController(primaryStage, dataManager.getCourse(), messageDialog, yesNoCancelDialog);

@@ -1,7 +1,5 @@
 package csb.data;
 
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.time.LocalDate;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;

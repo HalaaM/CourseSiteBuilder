@@ -49,13 +49,13 @@ public class AssignmentDialog  extends Stage {
     public static final String CANCEL = "Cancel";
     public static final String NAME_PROMPT = "Name: ";
     public static final String DUE_DATE_PROMPT = "Due Date: ";
-    public static final String TOPIC_PROMPT = "TOPICS: ";
+    public static final String TOPIC_PROMPT = "Topics: ";
     public static final String ASSIGNMENT_HEADING = "Assignment Details";
     public static final String ADD_ASSIGNMENT_TITLE = "Add New Assignment";
     public static final String EDIT_ASSIGNMENT_TITLE = "Edit Assignment";
     /**
      * Initializes this dialog so that it can be used for either adding
-     * new schedule items or editing existing ones.
+     * new assignments or editing existing ones.
      * 
      * @param primaryStage The owner of this modal dialog.
      */
@@ -67,7 +67,7 @@ public class AssignmentDialog  extends Stage {
         
         // FIRST OUR CONTAINER
         gridPane = new GridPane();
-        gridPane.setPadding(new Insets(10, 20, 20, 20));
+        gridPane.setPadding(new Insets(10, 20, 20,20));
         gridPane.setHgap(10);
         gridPane.setVgap(10);
         
@@ -76,12 +76,20 @@ public class AssignmentDialog  extends Stage {
         headingLabel = new Label(ASSIGNMENT_HEADING);
         headingLabel.getStyleClass().add(CLASS_HEADING_LABEL);
     
-        // NOW THE DESCRIPTION 
+        // NOW THE NAME
         nameLabel = new Label(NAME_PROMPT);
         nameLabel.getStyleClass().add(CLASS_PROMPT_LABEL);
         nameTextField = new TextField();
         nameTextField.textProperty().addListener((observable, oldValue, newValue) -> {
             assignment.setName(newValue);
+        });
+        
+         // AND THE TOPIC
+        topicsLabel = new Label(TOPIC_PROMPT);
+        topicsLabel.getStyleClass().add(CLASS_PROMPT_LABEL);
+        topicsTextField = new TextField();
+        topicsTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+            assignment.setTopics(newValue);
         });
         
         // AND THE DATE
@@ -100,13 +108,7 @@ public class AssignmentDialog  extends Stage {
             }
         });
         
-        // AND THE URL
-        topicsLabel = new Label(TOPIC_PROMPT);
-        topicsLabel.getStyleClass().add(CLASS_PROMPT_LABEL);
-        topicsTextField = new TextField();
-        topicsTextField.textProperty().addListener((observable, oldValue, newValue) -> {
-            assignment.setTopics(newValue);
-        });
+       
         
         // AND FINALLY, THE BUTTONS
         completeButton = new Button(COMPLETE);

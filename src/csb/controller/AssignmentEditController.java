@@ -26,7 +26,7 @@ public class AssignmentEditController {
         yesNoCancelDialog = initYesNoCancelDialog;
     }
 
-    // THESE ARE FOR SCHEDULE ITEMS
+    // THESE ARE FOR ASSIGNMENT ITEMS
     
     public void handleAddAssignmentRequest(CSB_GUI gui) {
         CourseDataManager cdm = gui.getDataManager();
@@ -37,6 +37,7 @@ public class AssignmentEditController {
         if (ad.wasCompleteSelected()) {
             // GET THE SCHEDULE ITEM
             Assignment a = ad.getAssignment();
+              
             
             // AND ADD IT AS A ROW TO THE TABLE
             course.addAssignment(a);
