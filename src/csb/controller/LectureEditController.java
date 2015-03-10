@@ -78,4 +78,12 @@ public class LectureEditController {
             gui.getDataManager().getCourse().removeLecture(lectureToRemove);
         }
     }
+    
+    public void handleMoveUpRequest(CSB_GUI gui, Lecture lectureToMoveUp){
+        gui.getDataManager().getCourse().moveLectureUp(lectureToMoveUp);
+        
+    }
+    public void handleMoveDownRequest(CSB_GUI gui ,Lecture lectureToMoveDown){
+        gui.getDataManager().getCourse().moveLectureDown(lectureToMoveDown);
+    }
 }

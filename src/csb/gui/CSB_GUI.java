@@ -757,6 +757,7 @@ public class CSB_GUI implements CourseDataView {
         assignmentTable.getColumns().add(topicOfAssignment);
         assignmentTable.getColumns().add(dateOfAssignment);
         assignmentTable.setItems(dataManager.getCourse().getAssignments());
+
 //          
 //        // NOW LET'S ASSEMBLE ALL THE CONTAINERS TOGETHER
 //
@@ -904,7 +905,14 @@ public class CSB_GUI implements CourseDataView {
             lectureController.handleRemoveLectureRequest(this, lectureTable.getSelectionModel().getSelectedItem());
         });
         
-        // Add the move up and down button
+        moveUpLectureButton.setOnAction(e -> {
+            lectureController.handleMoveUpRequest(this, lectureTable.getSelectionModel().getSelectedItem());
+        });
+         
+        moveDownLectureButton.setOnAction(e -> {
+            lectureController.handleMoveDownRequest(this, lectureTable.getSelectionModel().getSelectedItem());
+        });
+        
         
         // AND NOW THE ASSIGNMENT ADDING AND EDITING CONTROLS
         assignmentController = new AssignmentEditController(primaryStage, dataManager.getCourse(), messageDialog, yesNoCancelDialog);

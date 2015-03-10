@@ -228,9 +228,36 @@ public class Course {
     public void removeLecture(Lecture lectureToRemove) {
         lectures.remove(lectureToRemove);
     }
+    
+    public void moveLectureUp(Lecture lectureToMove){
+        int index= lectures.indexOf(lectureToMove);
+        if(index==0){
+            return;
+        }
+        else{
+            Lecture lectureToChangeCopy= lectures.get(index-1);
+            lectures.remove(lectureToChangeCopy);
+            lectures.add(index, lectureToChangeCopy);
+        }
+    }
+    
+    public void moveLectureDown(Lecture lectureToMove){
+        int index= lectures.indexOf(lectureToMove);
+        if(index==lectures.size()-1){
+            return;
+        }
+        else{
+            Lecture lectureToChangeCopy= lectures.get(index+1);
+            lectures.remove(lectureToMove);
+            lectures.add(index+1, lectureToMove);
+        }
+  
+        
+    }
 
     public void addAssignment(Assignment a) {
         assignments.add(a);
+        Collections.sort(assignments);
     }
 
     public ObservableList<Assignment> getAssignments() {

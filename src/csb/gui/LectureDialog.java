@@ -9,6 +9,7 @@ import static csb.gui.CSB_GUI.PRIMARY_STYLE_SHEET;
 import java.time.LocalDate;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.event.EventType;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -36,7 +37,7 @@ public class LectureDialog  extends Stage {
     Label topicLabel;
     TextField topicTextField;
     Label numberOfSessionsLabel;
-    ComboBox numberOfSessionsComboBox;
+    ComboBox <Integer> numberOfSessionsComboBox;
     Button completeButton;
     Button cancelButton;
     
@@ -74,7 +75,7 @@ public class LectureDialog  extends Stage {
         headingLabel = new Label(LECTURE_HEADING);
         headingLabel.getStyleClass().add(CLASS_HEADING_LABEL);
     
-        // NOW THE DESCRIPTION 
+        // NOW THE TOPIC 
         topicLabel = new Label(TOPIC_PROMPT);
         topicLabel.getStyleClass().add(CLASS_PROMPT_LABEL);
         topicTextField = new TextField();
@@ -82,27 +83,16 @@ public class LectureDialog  extends Stage {
             lecture.setTopic(newValue);
         });
         
-//        // AND THE DATE
-//        dateLabel = new Label(DATE_PROMPT);
-//        dateLabel.getStyleClass().add(CLASS_PROMPT_LABEL);
-//        datePicker = new DatePicker();
-//        datePicker.setOnAction(e -> {
-//            if (datePicker.getValue().isBefore(course.getStartingMonday())
-//                    || datePicker.getValue().isAfter(course.getEndingFriday())) {
-//                // INCORRECT SELECTION, NOTIFY THE USER
-//                PropertiesManager props = PropertiesManager.getPropertiesManager();
-//                messageDialog.show(props.getProperty(CSB_PropertyType.ILLEGAL_DATE_MESSAGE));
-//            }             
-//            else {
-//                scheduleItem.setDate(datePicker.getValue());
-//            }
-//        });
-//        
-        // AND THE URL
+
+        // AND THE NUMBER OF SESSIONS
         numberOfSessionsLabel = new Label(NO_SESSION_PROMPT);
         numberOfSessionsLabel.getStyleClass().add(CLASS_PROMPT_LABEL);
         numberOfSessionsComboBox = new ComboBox();
-        numberOfSessionsComboBox.getItems().addAll("1","2","3","4","5");
+        numberOfSessionsComboBox.getItems().addAll(1,2,3,4,5,6,7,8,9,10);
+         numberOfSessionsComboBox.setOnAction(e -> {
+             lecture.setSessions(numberOfSessionsComboBox.getValue());
+        });
+        
         
         // AND FINALLY, THE BUTTONS
         completeButton = new Button(COMPLETE);

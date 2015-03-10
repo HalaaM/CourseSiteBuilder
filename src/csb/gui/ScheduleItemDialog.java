@@ -84,7 +84,8 @@ public class ScheduleItemDialog  extends Stage {
             scheduleItem.setDescription(newValue);
         });
         
-        // AND THE DATE
+        // AND THE 
+        
         dateLabel = new Label(DATE_PROMPT);
         dateLabel.getStyleClass().add(CLASS_PROMPT_LABEL);
         datePicker = new DatePicker();
