@@ -58,6 +58,10 @@ public class LectureEditController {
             Lecture l = ld.getLecture();
             lectureToEdit.setTopic(l.getTopic());
             lectureToEdit.setSessions(l.getSessions());
+            for (int i=0;i<gui.getDataManager().getCourse().getLectures().size();i++){
+            System.out.println(gui.getDataManager().getCourse().getLectures().get(i).getSessions());
+            }
+            //lecture.setSessions(numberOfSessionsComboBox.getValue())
             
         }
         else {

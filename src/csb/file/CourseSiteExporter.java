@@ -354,6 +354,7 @@ public class CourseSiteExporter {
         LocalDate countingDate = courseToExport.getStartingMonday().minusDays(0);
         int lectureCounter = 1;
         HashMap<LocalDate, ScheduleItem> scheduleItemMappings = courseToExport.getScheduleItemMappings();
+        HashMap<LocalDate, Assignment> assignmentMappings= courseToExport.getAssignmentsMappings();
 
         while (countingDate.isBefore(courseToExport.getEndingFriday())
                 || countingDate.isEqual(courseToExport.getEndingFriday())) {
@@ -401,7 +402,25 @@ public class CourseSiteExporter {
                     // SET THE DATE TO A REGULAR DAY
                     dayCell.setAttribute(HTML.Attribute.CLASS.toString(), CLASS_SCH);
                 }
-
+                //ADD ASSIGNMENTS 
+                try{
+                Assignment assignment = assignmentMappings.get(countingDate);
+                Element hw  = scheduleDoc.createElement(HTML.Tag.SPAN.toString());
+                hw.setAttribute(HTML.Attribute.CLASS.toString(), CLASS_HW);
+                hw.setTextContent(assignment.getName());
+                Text hwTextdue = scheduleDoc.createTextNode("Due @ 11:59pm");
+                Text hwTopic= scheduleDoc.createTextNode("("+assignment.getTopics()+")");
+                Element newLine = scheduleDoc.createElement(HTML.Tag.BR.toString());
+                dayCell.appendChild(hw);
+                dayCell.appendChild(newLine);
+                dayCell.appendChild(hwTextdue);
+                dayCell.appendChild(newLine.cloneNode(true));
+                dayCell.appendChild(hwTopic);
+                
+                
+                }catch(Exception e){
+                    
+                }
                 // FIRST SCHEDULE ITEMS
                 countingDate = countingDate.plusDays(1);
             }

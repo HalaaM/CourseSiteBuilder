@@ -276,4 +276,13 @@ public class Course {
         }
         return holidayDates;
     }
+    
+     public HashMap<LocalDate, Assignment > getAssignmentsMappings() {
+        // GET THE SCHEDULE DATES FOR QUICK LOOKUP
+        HashMap<LocalDate, Assignment> assignmentDates = new HashMap();
+        for (Assignment assignments : assignments) {
+            assignmentDates.put(assignments.getDate(), assignments);
+        }
+        return assignmentDates;
+    }
 }
