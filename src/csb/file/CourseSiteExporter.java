@@ -13,7 +13,9 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import javax.swing.text.html.HTML;
@@ -291,7 +293,8 @@ public class CourseSiteExporter {
         Document hwsDoc = initDoc(courseToExport, CoursePage.HWS, HWS_PAGE);
 
         // MISSING UPDATING THE TABLE
-
+        fillHWTable(courseToExport.getAssignments());
+        
         // AND RETURN THE FULL PAGE DOM
         return hwsDoc;
     }
@@ -353,8 +356,9 @@ public class CourseSiteExporter {
     private void fillScheduleTable(Document scheduleDoc, Course courseToExport) {
         LocalDate countingDate = courseToExport.getStartingMonday().minusDays(0);
         int lectureCounter = 1;
+        ArrayList<Lecture> lectureMapping = courseToExport.getLectureMappings();
         HashMap<LocalDate, ScheduleItem> scheduleItemMappings = courseToExport.getScheduleItemMappings();
-        HashMap<LocalDate, Assignment> assignmentMappings= courseToExport.getAssignmentsMappings();
+        HashMap<LocalDate, Assignment> assignmentMappings = courseToExport.getAssignmentsMappings();
 
         while (countingDate.isBefore(courseToExport.getEndingFriday())
                 || countingDate.isEqual(courseToExport.getEndingFriday())) {
@@ -401,25 +405,44 @@ public class CourseSiteExporter {
                 } else {
                     // SET THE DATE TO A REGULAR DAY
                     dayCell.setAttribute(HTML.Attribute.CLASS.toString(), CLASS_SCH);
+                     //ADD LECTURES
+                try {
+                    if (courseToExport.getLectureDays().contains(DayOfWeek.of(i + 1))) {
+                        Lecture lecture = lectureMapping.get(lectureCounter - 1);
+                        Element lectureHeading = scheduleDoc.createElement(HTML.Tag.SPAN.toString());
+                        lectureHeading.setAttribute(HTML.Attribute.CLASS.toString(), CLASS_LECTURE);
+                        lectureHeading.setTextContent("Lecture" + lectureCounter);
+                        Text lectureTopic = scheduleDoc.createTextNode("(" + lecture.getTopic() + ")");
+                        Element newLine = scheduleDoc.createElement(HTML.Tag.BR.toString());
+                        dayCell.appendChild(lectureHeading);
+                        dayCell.appendChild(newLine);
+                        dayCell.appendChild(lectureTopic);
+                        lectureCounter++;
+
+                    }
+                } catch (Exception e) { 
+                  
                 }
                 //ADD ASSIGNMENTS 
-                try{
-                Assignment assignment = assignmentMappings.get(countingDate);
-                Element hw  = scheduleDoc.createElement(HTML.Tag.SPAN.toString());
-                hw.setAttribute(HTML.Attribute.CLASS.toString(), CLASS_HW);
-                hw.setTextContent(assignment.getName());
-                Text hwTextdue = scheduleDoc.createTextNode("Due @ 11:59pm");
-                Text hwTopic= scheduleDoc.createTextNode("("+assignment.getTopics()+")");
-                Element newLine = scheduleDoc.createElement(HTML.Tag.BR.toString());
-                dayCell.appendChild(hw);
-                dayCell.appendChild(newLine);
-                dayCell.appendChild(hwTextdue);
-                dayCell.appendChild(newLine.cloneNode(true));
-                dayCell.appendChild(hwTopic);
-                
-                
-                }catch(Exception e){
-                    
+                try {
+                    Assignment assignment = assignmentMappings.get(countingDate);
+                    Element hw = scheduleDoc.createElement(HTML.Tag.SPAN.toString());
+                    hw.setAttribute(HTML.Attribute.CLASS.toString(), CLASS_HW);
+                    hw.setTextContent(assignment.getName());
+                    Text hwTextdue = scheduleDoc.createTextNode("Due @ 11:59pm");
+                    Text hwTopic = scheduleDoc.createTextNode("(" + assignment.getTopics() + ")");
+                    Element newLine = scheduleDoc.createElement(HTML.Tag.BR.toString());
+                    dayCell.appendChild(hw);
+                    dayCell.appendChild(newLine);
+                    dayCell.appendChild(hwTextdue);
+                    dayCell.appendChild(newLine.cloneNode(true));
+                    dayCell.appendChild(hwTopic);
+
+                } catch (Exception e) {
+
+                }
+               
+
                 }
                 // FIRST SCHEDULE ITEMS
                 countingDate = countingDate.plusDays(1);

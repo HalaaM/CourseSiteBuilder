@@ -31,7 +31,7 @@ public class LectureEditController {
     public void handleAddLectureRequest(CSB_GUI gui) {
         CourseDataManager cdm = gui.getDataManager();
         Course course = cdm.getCourse();
-        ld.showAddLectureDialog(course.getStartingMonday());
+        ld.showAddLectureDialog(course.getStartingMonday(),course);
         
         // DID THE USER CONFIRM?
         if (ld.wasCompleteSelected()) {

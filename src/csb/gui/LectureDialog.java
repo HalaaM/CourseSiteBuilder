@@ -7,6 +7,7 @@ import static csb.gui.CSB_GUI.CLASS_HEADING_LABEL;
 import static csb.gui.CSB_GUI.CLASS_PROMPT_LABEL;
 import static csb.gui.CSB_GUI.PRIMARY_STYLE_SHEET;
 import java.time.LocalDate;
+import java.time.Period;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.event.EventType;
@@ -29,6 +30,7 @@ import properties_manager.PropertiesManager;
 public class LectureDialog  extends Stage {
     // THIS IS THE OBJECT DATA BEHIND THIS UI
     Lecture lecture;
+    
     
     // GUI CONTROLS FOR OUR DIALOG
     GridPane gridPane;
@@ -88,7 +90,8 @@ public class LectureDialog  extends Stage {
         numberOfSessionsLabel = new Label(NO_SESSION_PROMPT);
         numberOfSessionsLabel.getStyleClass().add(CLASS_PROMPT_LABEL);
         numberOfSessionsComboBox = new ComboBox();
-        numberOfSessionsComboBox.getItems().addAll(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50);
+       
+ 
          numberOfSessionsComboBox.setOnAction(e -> {
              lecture.setSessions(numberOfSessionsComboBox.getValue());
         });
@@ -142,7 +145,7 @@ public class LectureDialog  extends Stage {
      * 
      * @param message Message to appear inside the dialog.
      */
-    public Lecture showAddLectureDialog(LocalDate initDate) {
+    public Lecture showAddLectureDialog(LocalDate initDate, Course course) {
         // SET THE DIALOG TITLE
         setTitle(ADD_LECTURE_TITLE);
         
@@ -151,6 +154,16 @@ public class LectureDialog  extends Stage {
         
         // LOAD THE UI STUFF
         topicTextField.setText(lecture.getTopic());
+             Period betweenDates= Period.between(course.getStartingMonday(), course.getEndingFriday());
+        
+        int diffInDays=betweenDates.getDays();
+        int numWeeks= (diffInDays/7)+1;
+        int numOfLecturesPerWeek= course.getLectureDays().size();
+        int numLectures= numWeeks*numOfLecturesPerWeek;
+        numberOfSessionsComboBox.getItems().clear();
+        for(int i=1; i<=numLectures;i++){
+            numberOfSessionsComboBox.getItems().add(i);
+        }
         numberOfSessionsComboBox.setValue(lecture.getSessions());
         
         // AND OPEN IT UP

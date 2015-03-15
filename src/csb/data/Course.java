@@ -285,4 +285,17 @@ public class Course {
         }
         return assignmentDates;
     }
+    
+        public ArrayList <Lecture> getLectureMappings() {
+        ArrayList <Lecture> lectureList= new ArrayList();    
+        // GET THE SCHEDULE DATES FOR QUICK LOOKUP
+        for (Lecture lecture : lectures) {
+            for (int i=0; i<lecture.getSessions();i++){
+                lectureList.add(lecture);
+                
+            }
+        }
+        return lectureList;
+    }
+     
 }
