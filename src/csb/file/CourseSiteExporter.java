@@ -6,6 +6,7 @@ import csb.data.Course;
 import csb.data.CoursePage;
 import csb.data.Instructor;
 import csb.data.Lecture;
+import csb.gui.ProgressBarDialog;
 import csb.data.ScheduleItem;
 import java.io.File;
 import java.io.IOException;
@@ -20,6 +21,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import javafx.concurrent.Task;
 import javax.swing.text.html.HTML;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -39,6 +41,8 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.Text;
 import org.xml.sax.SAXException;
+import java.util.concurrent.locks.ReentrantLock;
+import javafx.application.Platform;
 
 /**
  * This class is responsible for exporting schedule.html to its proper
@@ -137,7 +141,7 @@ public class CourseSiteExporter {
      * @throws IOException This exception is thrown when a problem occurs
      * creating the course site directory and/or files.
      */
-    public void exportCourseSite(Course courseToExport) throws Exception {
+    public void exportCourseSite(Course courseToExport, ProgressBarDialog dialog) throws Exception {
         // GET THE DIRECTORY TO EXPORT THE SITE
         String courseExportPath = (new File(sitesDir) + SLASH)
                 + courseToExport.getSubject() + courseToExport.getNumber();
@@ -147,14 +151,50 @@ public class CourseSiteExporter {
         if (!new File(courseExportPath).exists()) {
             setupCourseSite(courseExportPath);
         }
+        ReentrantLock progressLock = new ReentrantLock();
 
-        CoursePage[] pages = CoursePage.values();
-        for (pageIndex = 0; pageIndex < pages.length; pageIndex++) {
-            if (courseToExport.hasCoursePage(pages[pageIndex])) {
-                // CALCULATE THE PROGRESS
-                exportPage(pages[pageIndex], courseToExport, courseExportPath);
+        Task<Void> task = new Task<Void>() {
+
+            double max = courseToExport.getPages().size();
+            double percent;
+
+            @Override
+            protected Void call() throws Exception {
+                CoursePage[] pages = CoursePage.values();
+                try {
+                    progressLock.lock();
+                    for (pageIndex = 0; pageIndex < pages.length; pageIndex++) {
+                        if (courseToExport.hasCoursePage(pages[pageIndex])) {
+                            // CALCULATE THE PROGRESS
+
+                            exportPage(pages[pageIndex], courseToExport, courseExportPath);
+
+                            perc = (float) (pageIndex + 1 )/ (float) max;
+
+                            Platform.runLater(() -> {
+                                dialog.setTextTask("Exporting " + courseToExport.getPages().get(pageIndex) + "completed");
+                                System.out.println(perc);
+                                dialog.setProgress(perc);
+                                dialog.setProgressIndicator(perc);
+
+                            });
+
+                            Thread.sleep(1000);
+                        }
+
+                    }
+
+                } finally {
+                    progressLock.unlock();
+                }
+                return null;
             }
-        }
+
+        };
+        Thread thread = new Thread(task);
+
+        thread.start();
+        dialog.showAndWait();
     }
 
     /**
@@ -168,6 +208,7 @@ public class CourseSiteExporter {
      * @throws IOException Thrown when there is a problem exporting the schedule
      * page for this site.
      */
+
     public void exportPage(CoursePage page, Course courseToExport, String courseExportPath)
             throws IOException {
         try {
@@ -295,7 +336,7 @@ public class CourseSiteExporter {
         Document hwsDoc = initDoc(courseToExport, CoursePage.HWS, HWS_PAGE);
 
         // MISSING UPDATING THE TABLE
-        fillHWTable(courseToExport,hwsDoc);
+        fillHWTable(courseToExport, hwsDoc);
 
         // AND RETURN THE FULL PAGE DOM
         return hwsDoc;
@@ -459,36 +500,35 @@ public class CourseSiteExporter {
 
         }
     }
-    
-    private void fillHWTable(Course courseToExport,Document hwsDoc){
-        int red=240;
-        int blue=255;
-        for (int i=0;i<courseToExport.getAssignments().size();i++){
+
+    private void fillHWTable(Course courseToExport, Document hwsDoc) {
+        int red = 240;
+        int blue = 255;
+        for (int i = 0; i < courseToExport.getAssignments().size(); i++) {
             Element dowRowCell = hwsDoc.createElement(HTML.Tag.TR.toString());
-            Element  dowRowCellHW= hwsDoc.createElement(HTML.Tag.TD.toString());
-            Element  dowRowCellDueDate= hwsDoc.createElement(HTML.Tag.TD.toString());
-            Element  dowRowCellGradingCriteria= hwsDoc.createElement(HTML.Tag.TD.toString());
-            dowRowCellHW.setTextContent(courseToExport.getAssignments().get(i).getName()+"-"+courseToExport.getAssignments().get(i).getTopics());
-            dowRowCellDueDate.setTextContent(courseToExport.getAssignments().get(i).getDate().getDayOfWeek().getDisplayName(TextStyle.FULL, Locale.US)+","+courseToExport.getAssignments().get(i).getDate().getMonth().getValue()+"/"+courseToExport.getAssignments().get(i).getDate().getDayOfMonth()+"@11:59pm");
+            Element dowRowCellHW = hwsDoc.createElement(HTML.Tag.TD.toString());
+            Element dowRowCellDueDate = hwsDoc.createElement(HTML.Tag.TD.toString());
+            Element dowRowCellGradingCriteria = hwsDoc.createElement(HTML.Tag.TD.toString());
+            dowRowCellHW.setTextContent(courseToExport.getAssignments().get(i).getName() + "-" + courseToExport.getAssignments().get(i).getTopics());
+            dowRowCellDueDate.setTextContent(courseToExport.getAssignments().get(i).getDate().getDayOfWeek().getDisplayName(TextStyle.FULL, Locale.US) + "," + courseToExport.getAssignments().get(i).getDate().getMonth().getValue() + "/" + courseToExport.getAssignments().get(i).getDate().getDayOfMonth() + "@11:59pm");
             dowRowCellGradingCriteria.setTextContent("TBD");
             dowRowCell.setAttribute(HTML.Attribute.CLASS.toString(), CLASS_HWS);
-            
-            dowRowCell.setAttribute(HTML.Attribute.STYLE.toString(), "background-color:rgb("+red+","+red+","+blue+")");
-            blue=blue-5;
-            red=red-10;
-            
+
+            dowRowCell.setAttribute(HTML.Attribute.STYLE.toString(), "background-color:rgb(" + red + "," + red + "," + blue + ")");
+            blue = blue - 5;
+            red = red - 10;
+
             dowRowCellHW.setAttribute(HTML.Attribute.CLASS.toString(), CLASS_HWS);
             dowRowCellDueDate.setAttribute(HTML.Attribute.CLASS.toString(), CLASS_HWS);
             dowRowCellGradingCriteria.setAttribute(HTML.Attribute.CLASS.toString(), CLASS_HWS);
             dowRowCell.appendChild(dowRowCellHW);
             dowRowCell.appendChild(dowRowCellDueDate);
             dowRowCell.appendChild(dowRowCellGradingCriteria);
-            
-            NodeList list= hwsDoc.getElementsByTagName(HTML.Tag.TABLE.toString());
+
+            NodeList list = hwsDoc.getElementsByTagName(HTML.Tag.TABLE.toString());
             list.item(0).appendChild(dowRowCell);
         }
-        
-        
+
     }
 
     // ADDS A DAY OF WEEK CELL TO THE SCHEDULE PAGE SCHEDULE TABLE
@@ -631,4 +671,45 @@ public class CourseSiteExporter {
             return ID_PROJECTS_LINK;
         }
     }
+
+//    private void progressBar(Course courseToExport, ProgressBarDialog progress) {
+//        List pagesToLoad = courseToExport.getPages();
+//        ReentrantLock progressLock = new ReentrantLock();
+//        int size = pagesToLoad.size();
+//        Task task = new Task<Void>() {
+//
+//            double max = size;
+//            double perc;
+//
+//            @Override
+//            protected Void call() throws Exception {
+//                try {
+//                    progressLock.lock();
+//                    for (int i = 0; i < max; i++) {
+//                        perc = i / max;
+//
+//                        // THIS WILL BE DONE ASYNCHRONOUSLY VIA MULTITHREADING
+//                        Platform.runLater(new Runnable() {
+//                            @Override
+//                            public void run() {
+//                                progress.setProgress(perc);
+//                                progress.setProgressIndicator(perc);
+//                                progress.setTextTask("Exporting" +   + "Completed");
+//                            }
+//                        });
+//
+//                        // SLEEP EACH FRAME
+//                        try {
+//                        Thread.sleep(1000);
+//                         } catch (InterruptedException ie) {
+//                              ie.printStackTrace();
+//                          }
+//                    }
+//                } finally {
+//                    progressLock.unlock();
+//                }
+//                return null;
+//            }
+//        };
+//    };
 }

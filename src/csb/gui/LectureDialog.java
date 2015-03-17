@@ -1,6 +1,6 @@
 package csb.gui;
 
-import csb.CSB_PropertyType;
+
 import csb.data.Course;
 import csb.data.Lecture;
 import static csb.gui.CSB_GUI.CLASS_HEADING_LABEL;
@@ -10,18 +10,16 @@ import java.time.LocalDate;
 import java.time.Period;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.event.EventType;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ComboBox;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import properties_manager.PropertiesManager;
+
 
 /**
  *

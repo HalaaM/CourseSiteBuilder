@@ -14,6 +14,7 @@ import csb.file.CourseFileManager;
 import csb.file.CourseSiteExporter;
 import csb.gui.CSB_GUI;
 import csb.gui.MessageDialog;
+import csb.gui.ProgressBarDialog;
 import csb.gui.WebBrowser;
 import csb.gui.YesNoCancelDialog;
 import java.io.File;
@@ -194,6 +195,7 @@ public class FileController {
      * @param gui
      */
     public void handleExportCourseRequest(CSB_GUI gui) {
+        
         // EXPORT THE COURSE
         CourseDataManager dataManager = gui.getDataManager();
         Course courseToExport = dataManager.getCourse();
@@ -205,7 +207,7 @@ public class FileController {
         try {            
             
             // AND EXPORT THE COURSE
-            exporter.exportCourseSite(courseToExport);
+            exporter.exportCourseSite(courseToExport,new ProgressBarDialog(gui.getWindow(),gui.getDataManager().getCourse()) );
             
             // AND THEN OPEN UP THE PAGE IN A BROWSER
             Stage webBrowserStage = new Stage();

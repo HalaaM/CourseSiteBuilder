@@ -24,8 +24,12 @@ import java.net.URL;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.locks.ReentrantLock;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -238,6 +242,7 @@ public class CSB_GUI implements CourseDataView {
     // HERE ARE OUR DIALOGS
     MessageDialog messageDialog;
     YesNoCancelDialog yesNoCancelDialog;
+    Task<Void> task;
     
     /**
      * Constructor for making this GUI, note that it does not initialize the UI
@@ -822,6 +827,7 @@ public class CSB_GUI implements CourseDataView {
         });
         exportSiteButton.setOnAction(e -> {
             fileController.handleExportCourseRequest(this);
+            
         });
         exitButton.setOnAction(e -> {
             fileController.handleExitRequest(this);
@@ -1046,5 +1052,7 @@ public class CSB_GUI implements CourseDataView {
         } else {
             course.unselectPage(cP);
         }
-    }    
+    } 
+    
+     
 }
