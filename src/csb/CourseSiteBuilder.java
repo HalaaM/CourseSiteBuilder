@@ -20,8 +20,7 @@ import xml_utilities.InvalidXMLFileFormatException;
  * CourseSiteBuilder is a JavaFX application that can be used to build the
  * pages for a course Web site. The CSE 219 course's schedule page is
  * one such page: http://www.cs.stonybrook.edu/~cse219/Section02/schedule.html
- * 
- * @author Richard McKenna
+ *
  */
 public class CourseSiteBuilder extends Application {
     // THIS IS THE FULL USER INTERFACE, WHICH WILL BE INITIALIZED

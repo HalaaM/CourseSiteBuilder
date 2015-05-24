@@ -6,10 +6,7 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
-/**
- *
- * @author McKillaGorilla
- */
+
 public class ScheduleItem implements Comparable {
     final StringProperty description;
     final ObjectProperty<LocalDate> date;

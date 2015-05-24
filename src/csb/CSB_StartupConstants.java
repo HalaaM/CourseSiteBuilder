@@ -5,7 +5,6 @@ package csb;
  * at startup, which means before the user interface is even loaded. This mostly 
  * means how to find files for initializing the application, like properties.xml.
  * 
- * @author Richard McKenna
  */
 public class CSB_StartupConstants
 {

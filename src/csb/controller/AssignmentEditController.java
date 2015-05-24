@@ -13,7 +13,6 @@ import properties_manager.PropertiesManager;
 
 /**
  *
- * @author McKillaGorilla
  */
 public class AssignmentEditController {
     AssignmentDialog ad;

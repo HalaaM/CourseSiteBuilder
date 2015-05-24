@@ -60,8 +60,6 @@ import properties_manager.PropertiesManager;
  * This class provides the Graphical User Interface for this application,
  * managing all the UI components for editing a Course and exporting it to a
  * site.
- *
- * @author Richard McKenna
  */
 public class CSB_GUI implements CourseDataView {
 

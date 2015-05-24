@@ -6,10 +6,7 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
-/**
- *
- * @author McKillaGorilla
- */
+
 public class Assignment implements Comparable{
     final StringProperty name;
     final StringProperty topics;

@@ -16,9 +16,8 @@ import javafx.beans.property.StringProperty;
 
 /**
  *
- * @author McKillaGorilla
  */
-public class Lecture {
+ public class Lecture {
     final StringProperty topic;
     final IntegerProperty sessions;
     public static final String DEFAULT_TOPIC = "<ENTER TOPIC>";

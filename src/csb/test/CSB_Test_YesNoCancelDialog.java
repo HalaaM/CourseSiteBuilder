@@ -12,7 +12,6 @@ import javafx.stage.Stage;
  * class like this lets us setup simple tests without all the other
  * stuff in the way.
  *
- * @author Richard McKenna
  */
 public class CSB_Test_YesNoCancelDialog extends Application {
     public void start(Stage primaryStage) {

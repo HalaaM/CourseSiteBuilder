@@ -15,7 +15,6 @@ import properties_manager.PropertiesManager;
  * inside of our program. It's convenient to do this in one place so
  * that we have a common format for dealing with problems.
  * 
- * @author Richard McKenna
  */
 public class ErrorHandler {
     // THIS CLASS USES A SINGLETON DESIGN PATTER, WHICH IS CONVENIENT

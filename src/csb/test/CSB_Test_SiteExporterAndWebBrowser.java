@@ -14,7 +14,6 @@ import javafx.stage.Stage;
  * which is used to verify site exporting. Using a separate class like
  * this lets us setup simple tests without all the other stuff in the way.
  *
- * @author Richard McKenna
  */
 public class CSB_Test_SiteExporterAndWebBrowser extends Application {
     // WE'LL DO SITE EXPORTING WITHOUT USING THE REGULAR GUI,

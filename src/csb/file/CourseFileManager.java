@@ -11,7 +11,6 @@ import java.util.List;
  * that file managers know how to read and write courses, instructors, and subjects,
  * but now how to export sites.
  * 
- * @author Richard McKenna
  */
 public interface CourseFileManager {
     public void                 saveCourse(Course courseToSave) throws IOException;

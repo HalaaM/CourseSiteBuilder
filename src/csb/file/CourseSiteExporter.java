@@ -50,7 +50,6 @@ import javafx.application.Platform;
  * loaded first and that each course will have its own file exported to a
  * directory in the sitesDir directory.
  *
- * @author Richard McKenna
  */
 public class CourseSiteExporter {
 

@@ -20,10 +20,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import properties_manager.PropertiesManager;
 
-/**
- *
- * @author McKillaGorilla
- */
+
 public class AssignmentDialog  extends Stage {
     // THIS IS THE OBJECT DATA BEHIND THIS UI
     Assignment assignment;

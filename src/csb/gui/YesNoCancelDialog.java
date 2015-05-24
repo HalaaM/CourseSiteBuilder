@@ -17,7 +17,6 @@ import javafx.stage.Modality;
  * the user: Yes, No, or Cancel and lets one access which was
  * selected.
  * 
- * @author Richard McKenna
  */
 public class YesNoCancelDialog extends Stage {
     // GUI CONTROLS FOR OUR DIALOG

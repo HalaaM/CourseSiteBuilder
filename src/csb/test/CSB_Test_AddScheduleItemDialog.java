@@ -9,7 +9,6 @@ import javafx.stage.Stage;
 
 /**
  *
- * @author McKillaGorilla
  */
 public class CSB_Test_AddScheduleItemDialog extends Application {
 

@@ -8,7 +8,6 @@ import java.time.LocalDate;
  * This class manages a Course, which means it knows how to
  * reset one with default values and generate useful dates.
  * 
- * @author Richard McKenna
  */
 public class CourseDataManager {
     // THIS IS THE COURSE BEING EDITED

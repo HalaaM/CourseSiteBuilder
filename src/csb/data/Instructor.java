@@ -4,7 +4,6 @@ package csb.data;
  * A simple data class for storing information about
  * an instructor.
  * 
- * @author Richard McKenna
  */
 public class Instructor {
     String name;

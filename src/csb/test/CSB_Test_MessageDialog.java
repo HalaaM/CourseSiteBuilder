@@ -9,8 +9,6 @@ import javafx.stage.Stage;
  * This class is used to test our MessageDialog class. Using a separate
  * class like this lets us setup simple tests without all the other
  * stuff in the way.
- * 
- * @author Richard McKenna
  */
 public class CSB_Test_MessageDialog extends Application {
     /**

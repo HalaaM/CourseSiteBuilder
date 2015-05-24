@@ -11,10 +11,7 @@ import csb.gui.YesNoCancelDialog;
 import javafx.stage.Stage;
 import properties_manager.PropertiesManager;
 
-/**
- *
- * @author McKillaGorilla
- */
+
 public class ScheduleEditController {
     ScheduleItemDialog sid;
     MessageDialog messageDialog;

@@ -12,7 +12,6 @@ import javafx.stage.Stage;
  * is both CSS and Java enabled so that we may verify the construction
  * of individual Web pages.
  * 
- * @author Richard McKenna
  */
 public class WebBrowser {
     // THIS IS A SIMPLE WEB BROWSER WITHOUT NAVIGATION

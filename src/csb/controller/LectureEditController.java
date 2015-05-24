@@ -11,10 +11,6 @@ import csb.gui.YesNoCancelDialog;
 import javafx.stage.Stage;
 import properties_manager.PropertiesManager;
 
-/**
- *
- * @author McKillaGorilla
- */
 public class LectureEditController {
     LectureDialog ld;
     MessageDialog messageDialog;

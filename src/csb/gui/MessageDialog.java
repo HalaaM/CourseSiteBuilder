@@ -16,7 +16,6 @@ import javafx.stage.Modality;
  * Java 8 version 40 in March 2015 will make this class irrelevant 
  * because the Alert class will do what this does and much more.
  * 
- * @author Richard McKenna
  */
 public class MessageDialog extends Stage {
     VBox messagePane;

@@ -12,7 +12,6 @@ import javafx.collections.ObservableList;
 /**
  * This class represents a course to be edited and then used to generate a site.
  *
- * @author Richard McKenna
  */
 public class Course {
 

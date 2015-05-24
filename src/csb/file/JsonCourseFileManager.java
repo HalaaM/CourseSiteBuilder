@@ -32,7 +32,6 @@ import javax.json.JsonValue;
  * implement the necessary functions for loading and saving different
  * data for our courses, instructors, and subjects.
  * 
- * @author Richard McKenna
  */
 public class JsonCourseFileManager implements CourseFileManager {
     // JSON FILE READING AND WRITING CONSTANTS

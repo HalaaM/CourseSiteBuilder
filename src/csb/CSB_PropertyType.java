@@ -7,7 +7,6 @@ package csb;
  * easily without having to touch our code. It also allows for language
  * independence.
  * 
- * @author Richard McKenna
  */
 public enum CSB_PropertyType {
         // LOADED FROM properties.xml

@@ -4,7 +4,6 @@ package csb.data;
  * A type to represent the types of Semesters a Course may
  * be taught in.
  *
- * @author Richard McKenna
  */
 public enum Semester {
     SPRING,

@@ -17,10 +17,7 @@ import javafx.application.Application;
 import static javafx.application.Application.launch;
 import javafx.stage.Stage;
 
-/**
- *
- * @author McKillaGorilla
- */
+
 public class CSB_Test_EditScheduleItemDialog extends Application {
 
     @Override

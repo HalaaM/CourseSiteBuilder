@@ -1,10 +1,9 @@
 /* 
     This style sheet stylizes the controls inside our
-    CourseSiteBuilder JavaFX application. Note that controls
+    draftkit JavaFX application. Note that controls
     in the UI must have the same class as those below in 
     order to be rendered using those properties.
 
-    Author     : Richard McKenna
 */
 
 .progress_bar > .bar{

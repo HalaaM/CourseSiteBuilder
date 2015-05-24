@@ -23,7 +23,6 @@ import javafx.stage.Stage;
 
 /**
  *
- * @author McKillaGorilla
  */
 public class LectureDialog  extends Stage {
     // THIS IS THE OBJECT DATA BEHIND THIS UI
@@ -141,6 +140,7 @@ public class LectureDialog  extends Stage {
      * This method loads a custom message into the label and
      * then pops open the dialog.
      * 
+     * @param initDate
      * @param message Message to appear inside the dialog.
      */
     public Lecture showAddLectureDialog(LocalDate initDate, Course course) {

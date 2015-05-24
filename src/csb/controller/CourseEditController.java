@@ -12,7 +12,6 @@ import javafx.scene.control.DatePicker;
  * editing input, including verification of data and binding of
  * entered data to the Course object.
  * 
- * @author Richard McKenna
  */
 public class CourseEditController {
     // WE USE THIS TO MAKE SURE OUR PROGRAMMED UPDATES OF UI
